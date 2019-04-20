@@ -1,0 +1,428 @@
+# tcp-node-mqtt
+# group.dc*
+
+#--------- 开关 ---------#
+switch:
+# dc1-主卧
+  - platform: mqtt
+    name: "dc1"
+    state_topic: "phicomm/dc1/stat/sw0/99"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:B7:99,0,true"
+    payload_off: "DC:4F:22:04:B7:99,0,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc1_s1"
+    state_topic: "phicomm/dc1/stat/sw1/99"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:B7:99,1,true"
+    payload_off: "DC:4F:22:04:B7:99,1,false"
+    state_on: "ON"
+    state_off: "OFF"    
+  - platform: mqtt
+    name: "dc1_s2"
+    state_topic: "phicomm/dc1/stat/sw2/99"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:B7:99,2,true"
+    payload_off: "DC:4F:22:04:B7:99,2,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc1_s3"
+    state_topic: "phicomm/dc1/stat/sw3/99"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:B7:99,3,true"
+    payload_off: "DC:4F:22:04:B7:99,3,false"
+    state_on: "ON"
+    state_off: "OFF"
+# dc2-书房
+  - platform: mqtt
+    name: "dc2"
+    state_topic: "phicomm/dc1/stat/sw0/7C"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:8E:7C,0,true"
+    payload_off: "DC:4F:22:04:8E:7C,0,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc2_s1"
+    state_topic: "phicomm/dc1/stat/sw1/7C"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:8E:7C,1,true"
+    payload_off: "DC:4F:22:04:8E:7C,1,false"
+    state_on: "ON"
+    state_off: "OFF"    
+  - platform: mqtt
+    name: "dc2_s2"
+    state_topic: "phicomm/dc1/stat/sw2/7C"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:8E:7C,2,true"
+    payload_off: "DC:4F:22:04:8E:7C,2,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc2_s3"
+    state_topic: "phicomm/dc1/stat/sw3/7C"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "DC:4F:22:04:8E:7C,3,true"
+    payload_off: "DC:4F:22:04:8E:7C,3,false"
+    state_on: "ON"
+    state_off: "OFF"
+# dc3-玄关
+  - platform: mqtt
+    name: "dc3"
+    state_topic: "phicomm/dc1/stat/sw0/18"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "68:C6:3A:A5:9F:18,0,true"
+    payload_off: "68:C6:3A:A5:9F:18,0,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc3_s1"
+    state_topic: "phicomm/dc1/stat/sw1/18"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "68:C6:3A:A5:9F:18,1,true"
+    payload_off: "68:C6:3A:A5:9F:18,1,false"
+    state_on: "ON"
+    state_off: "OFF"    
+  - platform: mqtt
+    name: "dc3_s2"
+    state_topic: "phicomm/dc1/stat/sw2/18"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "68:C6:3A:A5:9F:18,2,true"
+    payload_off: "68:C6:3A:A5:9F:18,2,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc3_s3"
+    state_topic: "phicomm/dc1/stat/sw3/18"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "68:C6:3A:A5:9F:18,3,true"
+    payload_off: "68:C6:3A:A5:9F:18,3,false"
+    state_on: "ON"
+    state_off: "OFF"
+# dc4-次卧
+  - platform: mqtt
+    name: "dc4"
+    state_topic: "phicomm/dc1/stat/sw0/8F"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "5C:CF:7F:55:E4:8F,0,true"
+    payload_off: "5C:CF:7F:55:E4:8F,0,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc4_s1"
+    state_topic: "phicomm/dc1/stat/sw1/8F"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "5C:CF:7F:55:E4:8F,1,true"
+    payload_off: "5C:CF:7F:55:E4:8F,1,false"
+    state_on: "ON"
+    state_off: "OFF"    
+  - platform: mqtt
+    name: "dc4_s2"
+    state_topic: "phicomm/dc1/stat/sw2/8F"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "5C:CF:7F:55:E4:8F,2,true"
+    payload_off: "5C:CF:7F:55:E4:8F,2,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc4_s3"
+    state_topic: "phicomm/dc1/stat/sw3/8F"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "5C:CF:7F:55:E4:8F,3,true"
+    payload_off: "5C:CF:7F:55:E4:8F,3,false"
+    state_on: "ON"
+    state_off: "OFF"
+# dc5
+  - platform: mqtt
+    name: "dc5"
+    state_topic: "phicomm/dc1/stat/sw0/5B"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "84:F3:EB:55:74:5B,0,true"
+    payload_off: "84:F3:EB:55:74:5B,0,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc5_s1"
+    state_topic: "phicomm/dc1/stat/sw1/5B"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "84:F3:EB:55:74:5B,1,true"
+    payload_off: "84:F3:EB:55:74:5B,1,false"
+    state_on: "ON"
+    state_off: "OFF"    
+  - platform: mqtt
+    name: "dc5_s2"
+    state_topic: "phicomm/dc1/stat/sw2/5B"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "84:F3:EB:55:74:5B,2,true"
+    payload_off: "84:F3:EB:55:74:5B,2,false"
+    state_on: "ON"
+    state_off: "OFF"
+  - platform: mqtt
+    name: "dc5_s3"
+    state_topic: "phicomm/dc1/stat/sw3/5B"
+    command_topic: "phicomm/dc1/power"
+    payload_on: "84:F3:EB:55:74:5B,3,true"
+    payload_off: "84:F3:EB:55:74:5B,3,false"
+    state_on: "ON"
+    state_off: "OFF"
+
+#--------- 传感器 ---------#
+sensor:
+# dc1-主卧
+  - platform: mqtt
+    name: dc1_v
+    state_topic: "phicomm/dc1/stat/99"
+    unit_of_measurement: 'V'
+    value_template: "{{ value_json.v }}"
+  - platform: mqtt
+    name: dc1_p
+    state_topic: "phicomm/dc1/stat/99"
+    unit_of_measurement: 'W'
+    value_template: "{{ value_json.p }}"
+# dc2-书房
+  - platform: mqtt
+    name: dc2_v
+    state_topic: "phicomm/dc1/stat/7C"
+    unit_of_measurement: 'V'
+    value_template: "{{ value_json.v }}"
+  - platform: mqtt
+    name: dc2_p
+    state_topic: "phicomm/dc1/stat/7C"
+    unit_of_measurement: 'W'
+    value_template: "{{ value_json.p }}"
+# dc3-玄关
+  - platform: mqtt
+    name: dc3_v
+    state_topic: "phicomm/dc1/stat/18"
+    unit_of_measurement: 'V'
+    value_template: "{{ value_json.v }}"
+  - platform: mqtt
+    name: dc3_p
+    state_topic: "phicomm/dc1/stat/18"
+    unit_of_measurement: 'W'
+    value_template: "{{ value_json.p }}"
+# dc4-次卧
+  - platform: mqtt
+    name: dc4_v
+    state_topic: "phicomm/dc1/stat/8F"
+    unit_of_measurement: 'V'
+    value_template: "{{ value_json.v }}"
+  - platform: mqtt
+    name: dc4_p
+    state_topic: "phicomm/dc1/stat/8F"
+    unit_of_measurement: 'W'
+    value_template: "{{ value_json.p }}"
+# dc5
+  - platform: mqtt
+    name: dc5_v
+    state_topic: "phicomm/dc1/stat/5B"
+    unit_of_measurement: 'V'
+    value_template: "{{ value_json.v }}"
+  - platform: mqtt
+    name: dc5_p
+    state_topic: "phicomm/dc1/stat/5B"
+    unit_of_measurement: 'W'
+    value_template: "{{ value_json.p }}"
+
+
+ 
+#--------- 别名 ---------#
+homeassistant:  
+  customize_glob:
+    # 总开关  
+    switch.dc*:
+      friendly_name: 总开关
+      icon: mdi:power-settings
+    # 通用
+    switch.dc*_s*:
+    # 若琪显示
+      rhass_show: true
+      icon: mdi:power-plug    
+    # 若琪房间
+    switch.dc1_s*:
+      rhass_room: '主卧'
+    switch.dc2_s*:
+      rhass_room: '书房'
+    switch.dc3_s*:
+      rhass_room: '客厅'
+    switch.dc4_s*:
+      rhass_room: '次卧'
+  customize:
+    # 主卧
+    switch.dc1:
+      friendly_name: 总开关
+      extra_badge:
+        entity_id: sensor.dc1_p
+        unit: W
+      extra_data_template: "当前电压:${entities['sensor.dc1_v'].state}V"
+    switch.dc1_s1:
+      friendly_name: 加湿器
+      icon: mdi:water
+      rhass_hidden: false
+    switch.dc1_s2:
+      friendly_name: 威动盒子
+      icon: mdi:play
+      rhass_hidden: false
+    switch.dc1_s3:
+      friendly_name: 净化插座
+      icon: mdi:air-conditioner
+      rhass_hidden: false
+    # 书房
+    switch.dc2:
+      friendly_name: 总开关
+      extra_badge:
+        entity_id: sensor.dc2_p
+        unit: W
+      extra_data_template: "当前电压:${entities['sensor.dc2_v'].state}V"
+    switch.dc2_s1:
+      friendly_name: 空
+    switch.dc2_s2:
+      friendly_name: XPS充电  
+      icon: mdi:laptop-windows
+      rhass_hidden: false  
+    switch.dc2_s3:
+      friendly_name: 小米盒子
+      icon: mdi:play
+      rhass_hidden: false
+    # 玄关
+    switch.dc3:
+      friendly_name: 总开关
+      extra_badge:
+        entity_id: sensor.dc3_p
+        unit: W
+      extra_data_template: "当前电压:${entities['sensor.dc3_v'].state}V"
+    switch.dc3_s1:
+      friendly_name: 无线
+      #extra_data_template: dc3_s1
+      rhass_hidden: false 
+    switch.dc3_s2:
+      friendly_name: 苹果 
+      icon: mdi:apple
+     # extra_data_template: dc3_s2
+      rhass_hidden: false  
+    switch.dc3_s3:
+      friendly_name: 小米
+     # extra_data_template: dc3_s3
+      icon: mdi:battery-charging-wireless
+      rhass_hidden: false
+    # 次卧
+    switch.dc4:
+      friendly_name: 总开关
+      extra_badge:
+        entity_id: sensor.dc4_p
+        unit: W
+      extra_data_template: "当前电压:${entities['sensor.dc4_v'].state}V"
+    switch.dc4_s1:
+      friendly_name: 方糖
+      icon: mdi:cat
+      rhass_hidden: false
+    switch.dc4_s2:
+      friendly_name: 次卧二
+      rhass_hidden: false
+    switch.dc4_s3:
+      friendly_name: 检测仪
+      rhass_hidden: false
+    # 5
+    switch.dc5:
+      friendly_name: 总开关
+      extra_badge:
+        entity_id: sensor.dc5_p
+        unit: W
+      extra_data_template: "当前电压:${entities['sensor.dc5_v'].state}V"
+    switch.dc5_s1:
+      friendly_name: 开关一
+      extra_data_template: dc5_s1
+      rhass_hidden: false
+    switch.dc5_s2:
+      friendly_name: 开关二
+      extra_data_template: dc5_s2
+      rhass_hidden: false  
+    switch.dc5_s3:
+      friendly_name: 开关三
+      extra_data_template: dc5_s3
+      rhass_hidden: false
+    # # 6
+    # switch.dc6:
+    #   friendly_name: 总开关
+    # switch.dc6_s1:
+    #   friendly_name: 
+    # switch.dc6_s2:
+    #   friendly_name: 
+    #   rhass_hidden: false  
+    # switch.dc6_s3:
+    #   friendly_name: 
+    #   rhass_hidden: false
+
+#--------- 分组 ---------#
+group:
+  dc1:
+    name: 主卧排插
+    view: no
+    control: hidden
+    entities:
+      # - sensor.dc1_v
+      # - sensor.dc1_p
+      - switch.dc1
+      - switch.dc1_s1
+      - switch.dc1_s2
+      - switch.dc1_s3
+  dc2:
+    name: 书房排插
+    view: no
+    control: hidden
+    entities:
+      # - sensor.dc2_v
+      # - sensor.dc2_p
+      - switch.dc2
+      - switch.dc2_s1
+      - switch.dc2_s2
+      - switch.dc2_s3
+  # 玄关
+  dc3:
+    name: 鞋柜排插
+    view: no
+    control: hidden
+    entities:
+      # - sensor.dc3_v
+      # - sensor.dc3_p
+      - switch.dc3
+      - switch.dc3_s1
+      - switch.dc3_s2
+      - switch.dc3_s3
+  # 次卧
+  dc4:
+    name: 次卧排插
+    view: no
+    control: hidden
+    entities:
+      # - sensor.dc4_v
+      # - sensor.dc4_p
+      - switch.dc4
+      - switch.dc4_s1
+      - switch.dc4_s2
+      - switch.dc4_s3
+  dc5:
+    name: 排插5
+    view: no
+    control: hidden
+    entities:
+      # - sensor.dc5_v
+      # - sensor.dc5_p
+      - switch.dc5
+      - switch.dc5_s1
+      - switch.dc5_s2
+      - switch.dc5_s3
+  # dc6:
+  #   name: 排插6
+  #   view: no
+  #   control: hidden
+  #   entities:
+  #     - sensor.dc6_v
+  #     - sensor.dc6_p
+  #     - switch.dc6
+  #     - switch.dc6_s1
+  #     - switch.dc6_s2
+  #     - switch.dc6_s3
