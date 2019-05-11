@@ -1,0 +1,271 @@
+[
+    {
+      "id": "92628f07.15ca3",
+      "type": "comment",
+      "z": "f2e7c5f9.7b1698",
+      "name": "百度逆地里",
+      "info": "[说明](http://t.cn/RmeNq8X)\n\n# API\n`\nhttp://api.map.baidu.com/geocoder/v2/?callback=renderReverse&location=34.24506727,108.94106806&output=json&pois=0&ak=Vsc3I4AIgvkXCV96p3GIUwKx3RHSB8\n`\n\n# 必填参数\n- ak : Vsc3I4AIgvkXCV96p3GIUwKx3RHSB8\n- location : 34.24506727,108.94106806\n- \n\n# 返回json\n```json\n{\n    \"status\": 0,\n    \"result\": {\n        \"location\": {\n            \"lng\": 108.94106805999995,\n            \"lat\": 34.24506730328651\n        },\n        \"formatted_address\": \"陕西省西安市碑林区含光路中段辅路\",\n        \"business\": \"张家村,小雁塔,朱雀大街\",\n        \"addressComponent\": {\n            \"country\": \"中国\",\n            \"country_code\": 0,\n            \"country_code_iso\": \"CHN\",\n            \"country_code_iso2\": \"CN\",\n            \"province\": \"陕西省\",\n            \"city\": \"西安市\",\n            \"city_level\": 2,\n            \"district\": \"碑林区\",\n            \"town\": \"\",\n            \"adcode\": \"610103\",\n            \"street\": \"含光路中段辅路\",\n            \"street_number\": \"\",\n            \"direction\": \"\",\n            \"distance\": \"\"\n        },\n        \"pois\": [],\n        \"roads\": [],\n        \"poiRegions\": [\n            {\n                \"direction_desc\": \"内\",\n                \"name\": \"西安体育学院\",\n                \"tag\": \"教育培训;高等院校\",\n                \"uid\": \"75d0881ad8abff4d3a04b154\",\n                \"distance\": \"0\"\n            }\n        ],\n        \"sematic_description\": \"西安体育学院内,西安润丰公寓奥林匹克大道分店东北94米\",\n        \"cityCode\": 233\n    }\n}\n```",
+      "x": 80,
+      "y": 600,
+      "wires": []
+    },
+    {
+      "id": "ff96e7a4.e67be8",
+      "type": "http request",
+      "z": "f2e7c5f9.7b1698",
+      "name": "GET请求逆地理",
+      "method": "GET",
+      "ret": "txt",
+      "url": "",
+      "tls": "",
+      "x": 440,
+      "y": 760,
+      "wires": [
+        [
+          "381b781e.4929c8"
+        ]
+      ]
+    },
+    {
+      "id": "50d7c47a.f65c6c",
+      "type": "api-current-state",
+      "z": "f2e7c5f9.7b1698",
+      "name": "M位置",
+      "server": "5752698e.e26e98",
+      "outputs": 1,
+      "halt_if": "",
+      "halt_if_type": "str",
+      "halt_if_compare": "is",
+      "override_topic": true,
+      "entity_id": "device_tracker.sonic6",
+      "state_type": "str",
+      "state_location": "payload",
+      "override_payload": "msg",
+      "entity_location": "data",
+      "override_data": "msg",
+      "x": 210,
+      "y": 640,
+      "wires": [
+        [
+          "15a404cd.02d4db"
+        ]
+      ]
+    },
+    {
+      "id": "237fc519.59e31a",
+      "type": "inject",
+      "z": "f2e7c5f9.7b1698",
+      "name": "",
+      "topic": "",
+      "payload": "",
+      "payloadType": "date",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 80,
+      "y": 640,
+      "wires": [
+        [
+          "50d7c47a.f65c6c"
+        ]
+      ]
+    },
+    {
+      "id": "15a404cd.02d4db",
+      "type": "function",
+      "z": "f2e7c5f9.7b1698",
+      "name": "拼接参数",
+      "func": "//API地址\nlet url = 'http://api.map.baidu.com/geocoder/v2/?callback=renderReverse&output=json';\n//ak\nlet ak = 'Vsc3I4AIgvkXCV96p3GIUwKx3RHSB8';\n//经纬度\nlet location = \"\";\nlet loc = \"\";\nif(msg.data.attributes===undefined){\n  //events\n  loc = msg.data.new_state.attributes;\n    \n}else{\n  //current\n  loc = msg.data.attributes;\n}\nlocation = loc.latitude +','+ loc.longitude;  \n//拼接GET地址\nmsg.url = `${url}&ak=${ak}&location=${location}`\nreturn msg;",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 280,
+      "y": 760,
+      "wires": [
+        [
+          "ff96e7a4.e67be8"
+        ]
+      ]
+    },
+    {
+      "id": "381b781e.4929c8",
+      "type": "function",
+      "z": "f2e7c5f9.7b1698",
+      "name": "转换位置",
+      "func": "//获取位置人信息\nlet who = msg.topic.split(\".\")[1];\n//拼接MQTT地址\nlet topic = `baidu/location/${who}`;\n//转换JSON\nlet json = msg.payload.replace(/renderReverse&&renderReverse\\((.*)\\)/,\"$1\");\nlet res = JSON.parse(json);\n//成功返回\nif(res.status === 0){\n    msg.topic = topic;\n    msg.payload = res.result.formatted_address;\n    //显示位置    \n    node.status({\n        text:who+\":\"+msg.payload\n    })  \n    //输出值\n    return msg;\n}\n",
+      "outputs": 1,
+      "noerr": 0,
+      "x": 600,
+      "y": 760,
+      "wires": [
+        [
+          "dd67c424.b6bab8"
+        ]
+      ]
+    },
+    {
+      "id": "c0ee9bda.e2f518",
+      "type": "server-state-changed",
+      "z": "f2e7c5f9.7b1698",
+      "name": "老婆的位置",
+      "server": "5752698e.e26e98",
+      "entityidfilter": "device_tracker.xiner",
+      "entityidfiltertype": "exact",
+      "outputinitially": true,
+      "state_type": "str",
+      "haltifstate": "",
+      "halt_if_type": "str",
+      "halt_if_compare": "is",
+      "outputs": 1,
+      "output_only_on_state_change": false,
+      "x": 100,
+      "y": 700,
+      "wires": [
+        [
+          "15a404cd.02d4db"
+        ]
+      ]
+    },
+    {
+      "id": "8498bcf9.55ae2",
+      "type": "server-state-changed",
+      "z": "f2e7c5f9.7b1698",
+      "name": "我的位置",
+      "server": "5752698e.e26e98",
+      "entityidfilter": "device_tracker.sonic6",
+      "entityidfiltertype": "substring",
+      "outputinitially": true,
+      "state_type": "str",
+      "haltifstate": "",
+      "halt_if_type": "str",
+      "halt_if_compare": "is",
+      "outputs": 1,
+      "output_only_on_state_change": false,
+      "x": 100,
+      "y": 760,
+      "wires": [
+        [
+          "15a404cd.02d4db"
+        ]
+      ]
+    },
+    {
+      "id": "4bb50e20.3a613",
+      "type": "server-state-changed",
+      "z": "f2e7c5f9.7b1698",
+      "name": "车位置",
+      "server": "5752698e.e26e98",
+      "entityidfilter": "device_tracker.atenza",
+      "entityidfiltertype": "substring",
+      "outputinitially": true,
+      "state_type": "str",
+      "haltifstate": "",
+      "halt_if_type": "str",
+      "halt_if_compare": "is",
+      "outputs": 1,
+      "output_only_on_state_change": false,
+      "x": 90,
+      "y": 820,
+      "wires": [
+        [
+          "15a404cd.02d4db"
+        ]
+      ]
+    },
+    {
+      "id": "dd67c424.b6bab8",
+      "type": "mqtt out",
+      "z": "f2e7c5f9.7b1698",
+      "name": "百度逆地里",
+      "topic": "",
+      "qos": "0",
+      "retain": "true",
+      "broker": "a1965318.19941",
+      "x": 770,
+      "y": 740,
+      "wires": []
+    },
+    {
+      "id": "f77afac3.597c48",
+      "type": "comment",
+      "z": "f2e7c5f9.7b1698",
+      "name": "HA-event-json",
+      "info": "```json\n{\n  \"topic\": \"device_tracker.sonic6\",\n  \"payload\": \"not_home\",\n  \"data\": {\n    \"entity_id\": \"device_tracker.sonic6\",\n    \"old_state\": {\n      \"entity_id\": \"device_tracker.sonic6\",\n      \"state\": \"home\",\n      \"attributes\": {\n        \"source_type\": \"gps\",\n        \"latitude\": 34.24506727,\n        \"longitude\": 108.94106806,\n        \"gps_accuracy\": 200,\n        \"battery\": 74,\n        \"charging\": \"未充电\",\n        \"friendly_name\": \"鸣\",\n        \"entity_picture\": \"/local/img/ming.jpg\",\n        \"custom_ui_state_card\": \"state-card-custom-ui\",\n        \"rhass_hidden\": true,\n        \"templates\": {\n          \"_stateDisplay\": \"if (state === 'home') return '在家'; else if(state === 'not_home') return '外出';else return state;\"\n        },\n        \"extra_data_template\": \"if(attributes.scanner === 'AsusWrtDeviceScanner') {return 'OnePlus5 书房';} else if(attributes.ap_mac == '78:8a:20:d9:9e:0f') {return 'OnePlus5 客厅';} else if(attributes.ap_mac == '80:2a:a8:89:97:7a') {return 'OnePlus5 卧室';} else {return 'OnePlus5';}\\n\",\n        \"extra_badge\": [\n          {\n            \"entity_id\": \"sensor.weight_m\"\n          },\n          {\n            \"attribute\": \"battery\",\n            \"unit\": \"%\"\n          }\n        ]\n      },\n      \"last_changed\": \"2019-04-30T12:31:03.854541+00:00\",\n      \"last_updated\": \"2019-04-30T14:42:37.622019+00:00\",\n      \"context\": {\n        \"id\": \"48ccf2478f4c4e7f85630159d98ae7e8\",\n        \"user_id\": null\n      }\n    },\n    \"new_state\": {\n      \"entity_id\": \"device_tracker.sonic6\",\n      \"state\": \"not_home\",\n      \"attributes\": {\n        \"source_type\": \"gps\",\n        \"latitude\": 34.2683992,\n        \"longitude\": 108.96273991,\n        \"gps_accuracy\": 200,\n        \"battery\": -1,\n        \"charging\": \"未充电\",\n        \"friendly_name\": \"鸣\",\n        \"entity_picture\": \"/local/img/ming.jpg\",\n        \"custom_ui_state_card\": \"state-card-custom-ui\",\n        \"rhass_hidden\": true,\n        \"templates\": {\n          \"_stateDisplay\": \"if (state === 'home') return '在家'; else if(state === 'not_home') return '外出';else return state;\"\n        },\n        \"extra_data_template\": \"if(attributes.scanner === 'AsusWrtDeviceScanner') {return 'OnePlus5 书房';} else if(attributes.ap_mac == '78:8a:20:d9:9e:0f') {return 'OnePlus5 客厅';} else if(attributes.ap_mac == '80:2a:a8:89:97:7a') {return 'OnePlus5 卧室';} else {return 'OnePlus5';}\\n\",\n        \"extra_badge\": [\n          {\n            \"entity_id\": \"sensor.weight_m\"\n          },\n          {\n            \"attribute\": \"battery\",\n            \"unit\": \"%\"\n          }\n        ]\n      },\n      \"last_changed\": \"2019-04-30T14:46:25.974946+00:00\",\n      \"last_updated\": \"2019-04-30T14:46:25.974946+00:00\",\n      \"context\": {\n        \"id\": \"57ff73035e3f4f469b8d9577b55149c2\",\n        \"user_id\": null\n      },\n      \"timeSinceChangedMs\": 23\n    }\n  },\n  \"_msgid\": \"f869eab4.2575d8\"\n}\n```",
+      "x": 90,
+      "y": 880,
+      "wires": []
+    },
+    {
+      "id": "8d55eb4f.042b48",
+      "type": "comment",
+      "z": "f2e7c5f9.7b1698",
+      "name": "HA-current-json",
+      "info": "```json\n{\n  \"_msgid\": \"aba6803.a44228\",\n  \"topic\": \"device_tracker.sonic6\",\n  \"payload\": \"home\",\n  \"data\": {\n    \"entity_id\": \"device_tracker.sonic6\",\n    \"state\": \"home\",\n    \"attributes\": {\n      \"source_type\": \"gps\",\n      \"latitude\": 34.244974,\n      \"longitude\": 108.939327,\n      \"gps_accuracy\": 200,\n      \"battery\": 75,\n      \"charging\": \"未充电\",\n      \"friendly_name\": \"鸣\",\n      \"entity_picture\": \"/local/img/ming.jpg\",\n      \"custom_ui_state_card\": \"state-card-custom-ui\",\n      \"rhass_hidden\": true,\n      \"templates\": {\n        \"_stateDisplay\": \"if (state === 'home') return '在家'; else if(state === 'not_home') return '外出';else return state;\"\n      },\n      \"extra_data_template\": \"if(attributes.scanner === 'AsusWrtDeviceScanner') {return 'OnePlus5 书房';} else if(attributes.ap_mac == '78:8a:20:d9:9e:0f') {return 'OnePlus5 客厅';} else if(attributes.ap_mac == '80:2a:a8:89:97:7a') {return 'OnePlus5 卧室';} else {return 'OnePlus5';}\\n\",\n      \"extra_badge\": [\n        {\n          \"entity_id\": \"sensor.weight_m\"\n        },\n        {\n          \"attribute\": \"battery\",\n          \"unit\": \"%\"\n        }\n      ]\n    },\n    \"last_changed\": \"2019-04-30T12:31:03.854541+00:00\",\n    \"last_updated\": \"2019-04-30T14:00:11.467264+00:00\",\n    \"context\": {\n      \"id\": \"56c988b6444f4389a855109c3149c801\",\n      \"user_id\": null\n    },\n    \"timeSinceChangedMs\": 6135488\n  }\n}\n```",
+      "x": 260,
+      "y": 880,
+      "wires": []
+    },
+    {
+      "id": "2c2fc4ac.d5a05c",
+      "type": "comment",
+      "z": "f2e7c5f9.7b1698",
+      "name": "HA配置",
+      "info": "```yaml\n# https://www.home-assistant.io/components/sensor.mqtt/\n# 高德逆地理\n# 根据高德API,NODE获取用户坐标信息转换地址\n# group.gaode_node\n\nsensor:\n  - platform: mqtt\n    name: \"m_loc\"\n    state_topic: \"baidu/location/sonic6\"\n    value_template: \"{{ value}}\"\n  - platform: mqtt\n    name: \"x_loc\"\n    state_topic: \"baidu/location/xiner\"\n    value_template: \"{{ value}}\"\n  - platform: mqtt\n    name: \"car_loc\"\n    state_topic: \"baidu/location/atenza\"\n    value_template: \"{{ value}}\"\n\n#自定义名称\nhomeassistant:\n  customize_glob:\n    sensor.*_loc:\n      icon: mdi:google-maps\n  customize:\n    sensor.m_loc:\n      friendly_name: 鸣位置\n    sensor.x_loc:\n      friendly_name: 心位置\n    sensor.car_loc:\n      friendly_name: 车位置\n\n#分组\ngroup:\n  gaode_node:\n    name: 逆地理\n    view: no\n    entities:\n      - sensor.m_loc\n      - sensor.x_loc\n      - sensor.car_loc\n\n\n\n\n```",
+      "x": 210,
+      "y": 600,
+      "wires": []
+    },
+    {
+      "id": "39482d59.fed992",
+      "type": "inject",
+      "z": "f2e7c5f9.7b1698",
+      "name": "test",
+      "topic": "",
+      "payload": "renderReverse&&renderReverse({\"status\":0,\"result\":{\"location\":{\"lng\":108.93932699999994,\"lat\":34.244974033297797},\"formatted_address\":\"陕西省西安市碑林区含光北路79号\",\"business\":\"小雁塔,张家村,西北大\",\"addressComponent\":{\"country\":\"中国\",\"country_code\":0,\"country_code_iso\":\"CHN\",\"country_code_iso2\":\"CN\",\"province\":\"陕西省\",\"city\":\"西安市\",\"city_level\":2,\"district\":\"碑林区\",\"town\":\"\",\"adcode\":\"610103\",\"street\":\"含光北路\",\"street_number\":\"79号\",\"direction\":\"附近\",\"distance\":\"44\"},\"pois\":[],\"roads\":[],\"poiRegions\":[{\"direction_desc\":\"内\",\"name\":\"西安体育学院\",\"tag\":\"教育培训;高等院校\",\"uid\":\"75d0881ad8abff4d3a04b154\",\"distance\":\"0\"}],\"sematic_description\":\"西安体育学院内\",\"cityCode\":233}})",
+      "payloadType": "str",
+      "repeat": "",
+      "crontab": "",
+      "once": false,
+      "onceDelay": 0.1,
+      "x": 470,
+      "y": 720,
+      "wires": [
+        [
+          "381b781e.4929c8"
+        ]
+      ]
+    },
+    {
+      "id": "5752698e.e26e98",
+      "type": "server",
+      "z": "",
+      "name": "8123",
+      "legacy": true,
+      "hassio": false,
+      "rejectUnauthorizedCerts": true,
+      "ha_boolean": "y|yes|true|on|home|open",
+      "connectionDelay": true
+    },
+    {
+      "id": "a1965318.19941",
+      "type": "mqtt-broker",
+      "z": "",
+      "name": "88-MQTT",
+      "broker": "10.0.0.88",
+      "port": "1883",
+      "clientid": "",
+      "usetls": false,
+      "compatmode": true,
+      "keepalive": "60",
+      "cleansession": true,
+      "birthTopic": "",
+      "birthQos": "0",
+      "birthPayload": "",
+      "closeTopic": "",
+      "closeQos": "0",
+      "closePayload": "",
+      "willTopic": "",
+      "willQos": "0",
+      "willPayload": ""
+    }
+  ]
