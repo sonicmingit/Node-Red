@@ -6,7 +6,7 @@
 
 node-ui
 
-![dc1](.\img\dc1.jpg)
+![dc1](img/dc1.jpg)
 
 配置
 
